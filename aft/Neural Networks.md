@@ -229,3 +229,20 @@ bidirectional：True or False, 默认为False，是否使用双向的GRU，如�
 
 c)        它们是如何解决梯度消失的问题的
     GRU和LSTM中的门控设计策略能够有助于缓解梯度消失或梯度爆炸问题。主要是解决长序列梯度计算中幂指数大小的问题（长序列意味着高阶乘积计算，容易导致梯度极大或极小），可以通过门控设计来直接减少高阶乘积大小（直接替换高阶乘积计算，替换为合理数值），从而缓解梯度消失或梯度爆炸问题。
+```python
+# 初始化隐藏状态
+h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
+
+# 遍历输入序列
+for t in range(1, T+1):  # T 是时间步数
+    # 计算当前时间步的隐藏状态 
+    #常用的激活函数是 tanh\text{tanh}tanh 或 ReLU\text{ReLU}ReLU
+    h_t = activation_function(W_xh * x_t + W_hh * h_prev + b_h)
+    
+    # 计算当前时间步的输出
+    y_t = output_function(W_hy * h_t + b_y)
+    
+    # 更新隐藏状态
+    h_prev = h_t
+
+```
