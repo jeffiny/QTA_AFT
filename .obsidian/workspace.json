@@ -154,13 +154,23 @@
               "icon": "calendar-with-checkmark",
               "title": "Calendar"
             }
+          },
+          {
+            "id": "135cb1e0b00b8b30",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {},
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -180,8 +190,9 @@
   },
   "active": "751069c4d1c7a6b1",
   "lastOpenFiles": [
+    "2024-11-18.md",
+    "aft/Neural Networks.md",
     "aft/Neural Networks/image-20241118143227335.png",
-    "aft/Neural Networks",
-    "aft/Neural Networks.md"
+    "aft/Neural Networks"
   ]
 }
