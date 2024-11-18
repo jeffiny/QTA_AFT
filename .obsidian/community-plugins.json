@@ -11,5 +11,17 @@
   "editing-toolbar",
   "cm-editor-syntax-highlight-obsidian",
   "obsidian-excalidraw-plugin",
-  "obsidian-git"
+  "obsidian-git",
+  "highlightr-plugin",
+  "homepage",
+  "obsidian-image-caption",
+  "image-captions",
+  "obsidian-image-toolkit",
+  "obsidian-kanban",
+  "obsidian-markmind",
+  "mousewheel-image-zoom",
+  "obsidian-plugin-prettier",
+  "tasks-calendar-wrapper",
+  "templater-obsidian",
+  "obsidian-zotero-desktop-connector"
 ]
