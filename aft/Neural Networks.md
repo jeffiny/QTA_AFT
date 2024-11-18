@@ -161,6 +161,36 @@ lstm原理:
 输入门：通过将之前的需要留下的信息和现在需要记住的信息相加，也就是得到了新的记忆状态。===>代表复习下一门科目高等数学的时候输入的一些记忆（比如洛必达法则等等），那么已经线性代数残余且和高数相关的部分（比如数学运算）+高数的知识=新的记忆状态
 
 输出门：整合，得到一个输出===>代表高数所需要的记忆，但是在实际的考试不一定全都发挥出来考到100分。因此，则代表实际的考试分数
+```python
+# 初始化隐藏状态和细胞状态
+h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
+c_prev = zero_vector(n_hidden)  # 初始细胞状态，通常为零向量
+
+# 遍历输入序列
+for t in range(1, T+1):  # T 是时间步数
+    # 遗忘门 (Forget Gate)
+    f_t = sigmoid(W_f * x_t + U_f * h_prev + b_f)
+    
+    # 输入门 (Input Gate)
+    i_t = sigmoid(W_i * x_t + U_i * h_prev + b_i)
+    
+    # 候选状态 (Candidate Cell State)
+    c_candidate = tanh(W_c * x_t + U_c * h_prev + b_c)
+    
+    # 更新细胞状态 (Cell State Update)
+    c_t = f_t * c_prev + i_t * c_candidate
+    
+    # 输出门 (Output Gate)
+    o_t = sigmoid(W_o * x_t + U_o * h_prev + b_o)
+    
+    # 当前隐藏状态 (Hidden State)
+    h_t = o_t * tanh(c_t)
+    
+    # 更新隐藏状态和细胞状态
+    h_prev = h_t
+    c_prev = c_t
+
+```
 
 ---
 gru原理：
