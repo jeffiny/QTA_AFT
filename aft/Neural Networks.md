@@ -176,5 +176,55 @@ gru原理：
 3. **状态更新**
     - 整合新信息和历史信息，生成当前时间步的状态（记忆），并传递到下一步。
 b)       lstm和gru的参数估计
+lstm调参方法：
+问题：
+1、在确保了数据与网络的正确性之后，使用默认的超参数设置，观察loss的变化，初步定下各个超参数的范围，再进行调参。对于每个超参数，我们在每次的调整时，只去调整一个参数，然后观察loss变化，千万不要在一次改变多个超参数的值去观察loss。
+
+2、对于loss的变化情况，主要有以下几种可能性：上升、下降、不变，对应的数据集有train与val（validation），那么进行组合有如下的可能：
+
+train loss 不断下降，val loss 不断下降——网络仍在学习；
+
+train loss 不断下降，val loss 不断上升——网络过拟合；
+
+train loss 不断下降，val loss 趋于不变——网络欠拟合；
+
+train loss 趋于不变，val loss 趋于不变——网络陷入瓶颈；
+
+train loss 不断上升，val loss 不断上升——网络结构问题；
+
+train loss 不断上升，val loss 不断下降——数据集有问题；
+
+其余的情况，也是归于网络结构问题与数据集问题中。
+
+3、当loss趋于不变时观察此时的loss值与1-3中计算的loss值是否相同，如果相同，那么应该是在梯度计算中出现了nan或者inf导致oftmax输出为0。
+
+此时可以采取的方式是减小初始化权重、降低学习率。同时评估采用的loss是否合理。
+
+方法：
+1、当网络过拟合时，可以采用的方式是正则化（regularization）与丢弃法（dropout）以及BN层（batch normalization），正则化中包括L1正则化与L2正则化，在LSTM中采用L2正则化。另外在使用dropout与BN层时，需要主要注意训练集和测试集上的设置方式不同，例如在训练集上dropout设置为0.5，在验证集和测试集上dropout要去除。
+
+2、当网络欠拟合时，可以采用的方式是：去除 / 降低 正则化；增加网络深度（层数）；增加神经元个数；增加训练集的数据量。
+
+3、设置early stopping，根据验证集上的性能去评估何时应该提早停止。
+
+4、对于LSTM，可使用softsign（而非softmax）激活函数替代tanh（更快且更不容易出现饱和（约0梯度））
+
+5、尝试使用不同优化算法，合适的优化器可以是网络训练的更快，RMSProp、AdaGrad或momentum（Nesterovs）通常都是较好的选择。
+
+6、使用梯度裁剪（gradient clipping），归一化梯度后将梯度限制在5或者15。
+
+7、学习率（learning rate）是一个相当重要的超参数，对于学习率可以尝试使用余弦退火或者衰减学习率等方法。
+
+7、可以进行网络的融合（网络快照）或者不同模型之间的融合。
+
+
+gru的参数
+input_size: input的特征维度
+hidden_size: 隐藏层的宽度
+num_layers: 单元的数量（层数），默认为1，如果为2以为着将两个GRU堆叠在一起，当成一个GRU单元使用。
+bias: True or False，是否使用bias项，默认使用
+batch_first: Ture or False, 默认的输入是三个维度的，即：(seq, batch, feature)，第一个维度是时间序列，第二个维度是batch，第三个维度是特征。如果设置为True，则(batch, seq, feature)。即batch，时间序列，每个时间点特征。
+dropout：设置隐藏层是否启用dropout，默认为0
+bidirectional：True or False, 默认为False，是否使用双向的GRU，如果使用双向的GRU，则自动将序列正序和反序各输入一次。
 
 c)        它们是如何解决梯度消失的问题的
