@@ -172,6 +172,8 @@ for t in range(1, T+1):  # T 是时间步数
     f_t = sigmoid(W_f * x_t + U_f * h_prev + b_f)
     
     # 输入门 (Input Gate)
+    # 输入门由一个sigmoid激活函数和一个tanh激活函数组成。
+    # sigmoid函数决定哪些信息是重要的，而tanh函数则生成新的候选信息。
     i_t = sigmoid(W_i * x_t + U_i * h_prev + b_i)
     
     # 候选状态 (Candidate Cell State)
@@ -181,6 +183,8 @@ for t in range(1, T+1):  # T 是时间步数
     c_t = f_t * c_prev + i_t * c_candidate
     
     # 输出门 (Output Gate)
+    # 输出门由一个sigmoid激活函数和一个tanh激活函数组成。
+    # sigmoid函数决定哪些信息应该被输出，而tanh函数则处理记忆单元的状态以准备输出。
     o_t = sigmoid(W_o * x_t + U_o * h_prev + b_o)
     
     # 当前隐藏状态 (Hidden State)
@@ -295,7 +299,7 @@ h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
 # 遍历输入序列
 for t in range(1, T+1):  # T 是时间步数
     # 计算当前时间步的隐藏状态 
-    # 常用的激活函数是 tanh\text{tanh}tanh 或 ReLU\text{ReLU}ReLU
+    # 常用的激活函数是 tanh或ReLU
     h_t = activation_function(W_xh * x_t + W_hh * h_prev + b_h)
     
     # 计算当前时间步的输出
