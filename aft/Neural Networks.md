@@ -15,6 +15,7 @@ repeat num iterations{
 
 2.      在pytorch中的固定流程
 ```python
+pytorch官方的代码：
 #step1:获取训练设备
 device = (
     "cuda"
@@ -48,7 +49,56 @@ pred_probab = nn.Softmax(dim=1)(logits)
 y_pred = pred_probab.argmax(1)
 print(f"Predicted class: {y_pred}")
 ```
-
+根据理论的神经网络代码：
+```python
+'''定义神经网络'''
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super(NeuralNetwork, self).__init__()
+        self.flatten=nn.Flatten()
+        self.hidden1=nn.Linear(28*28,128)
+        self.hidden2=nn.Linear(128,128)
+        self.hidden3=nn.Linear(128,64)
+        self.out=nn.Linear(64,10)
+    def forward(self,x):
+        x=self.flatten(x)
+        x=self.hidden1(x)
+        x=torch.relu(x)
+        x=self.hidden2(x)
+        x=torch.sigmoid(x)
+        x=self.hidden3(x)
+        x=torch.relu(x)
+        x=self.out(x)
+        return x
+ 
+model=NeuralNetwork().to(device)
+print(model)
+ 
+'''建立损失函数和优化算法'''
+#交叉熵损失函数
+loss_fn=nn.CrossEntropyLoss()
+# 优化算法为随机梯度算法/Adam优化算法
+optimizer=torch.optim.Adam(model.parameters(),lr=0.005)
+ 
+'''定义训练函数'''
+def train(dataloader,model,loss_fn,optimizer):
+    model.train()
+    # 记录优化次数
+    num=1
+    for X,y in dataloader:
+        X,y=X.to(device),y.to(device)
+        # 自动初始化权值w
+        pred=model.forward(X)
+        loss=loss_fn(pred,y) # 计算损失值
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        loss_value=loss.item()
+        print(f'loss:{loss_value},[numbes]:{num}')
+        num+=1
+ 
+train(train_dataloader,model,loss_fn,optimizer)
+```
 3.      以MLP举例，描述数据从输入到输出的维度变化
 
 4.      常用的激活函数和优缺点
