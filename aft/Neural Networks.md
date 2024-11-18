@@ -175,6 +175,30 @@ gru原理：
     - 更新门的值接近 1 时，更倾向于记住新信息；值接近 0 时，更倾向于保留旧信息。
 3. **状态更新**
     - 整合新信息和历史信息，生成当前时间步的状态（记忆），并传递到下一步。
+gru伪代码：
+```python
+# 初始化隐藏状态
+h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
+
+# 遍历输入序列
+for t in range(1, T+1):  # T 是时间步数
+    # 更新门 (Update Gate):决定信息保留/丢弃
+    # W_z偏置矩阵，
+    z_t = sigmoid(W_z * x_t + U_z * h_prev + b_z)
+    
+    # 重置门 (Reset Gate):决定是否清空旧记忆
+    r_t = sigmoid(W_r * x_t + U_r * h_prev + b_r)
+    
+    # 候选隐藏状态 (Candidate Hidden State):生成新记忆
+    h_candidate = tanh(W_h * x_t + U_h * (r_t * h_prev) + b_h)
+    
+    # 当前隐藏状态 (Current Hidden State):融合新旧信息
+    h_t = z_t * h_prev + (1 - z_t) * h_candidate
+    
+    # 更新隐藏状态
+    h_prev = h_t
+
+```
 b)       lstm和gru的参数估计
 lstm参数估计：
 问题：
@@ -229,6 +253,8 @@ bidirectional：True or False, 默认为False，是否使用双向的GRU，如�
 
 c)        它们是如何解决梯度消失的问题的
     GRU和LSTM中的门控设计策略能够有助于缓解梯度消失或梯度爆炸问题。主要是解决长序列梯度计算中幂指数大小的问题（长序列意味着高阶乘积计算，容易导致梯度极大或极小），可以通过门控设计来直接减少高阶乘积大小（直接替换高阶乘积计算，替换为合理数值），从而缓解梯度消失或梯度爆炸问题。
+
+RNN伪代码
 ```python
 # 初始化隐藏状态
 h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
@@ -236,10 +262,11 @@ h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
 # 遍历输入序列
 for t in range(1, T+1):  # T 是时间步数
     # 计算当前时间步的隐藏状态 
-    #常用的激活函数是 tanh\text{tanh}tanh 或 ReLU\text{ReLU}ReLU
+    # 常用的激活函数是 tanh\text{tanh}tanh 或 ReLU\text{ReLU}ReLU
     h_t = activation_function(W_xh * x_t + W_hh * h_prev + b_h)
     
     # 计算当前时间步的输出
+    # 输出函数通常是 Softmax（用于分类）或 Linear（用于回归）。
     y_t = output_function(W_hy * h_t + b_y)
     
     # 更新隐藏状态
