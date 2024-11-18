@@ -234,7 +234,7 @@ for t in range(1, T+1):  # T 是时间步数
     
     # 当前隐藏状态 (Current Hidden State):融合新旧信息
     # z_t * h_prev保留历史信息，(1 - z_t) * h_candidate表示新信息
-    # 直接通过加法操作保留上一时刻的隐藏状态 ht−1​，避免梯度过小。
+    # 直接通过加法操作保留上一时刻的隐藏状态 h_prev​，避免梯度过小。
     h_t = z_t * h_prev + (1 - z_t) * h_candidate
     
     # 更新隐藏状态
