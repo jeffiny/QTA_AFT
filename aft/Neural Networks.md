@@ -183,21 +183,24 @@ h_prev = zero_vector(n_hidden)  # 初始隐藏状态，通常为零向量
 # 遍历输入序列
 for t in range(1, T+1):  # T 是时间步数
     # 更新门 (Update Gate):决定信息保留/丢弃
-    # W_z偏置矩阵，
+    # W_z，U_z，b_z权重矩阵,h_prev 隐藏状态
     z_t = sigmoid(W_z * x_t + U_z * h_prev + b_z)
     
     # 重置门 (Reset Gate):决定是否清空旧记忆
+    # W_r，U_r，b_r权重矩阵,h_prev 隐藏状态
     r_t = sigmoid(W_r * x_t + U_r * h_prev + b_r)
     
     # 候选隐藏状态 (Candidate Hidden State):生成新记忆
+    # W_h，U_h，b_h权重矩阵, (r_t * h_prev)表示将前一个时间步的隐藏状态与重置门结合以控制影响程度
     h_candidate = tanh(W_h * x_t + U_h * (r_t * h_prev) + b_h)
     
     # 当前隐藏状态 (Current Hidden State):融合新旧信息
+    # z_t * h_prev保留历史信息，(1 - z_t) * h_candidate表示新信息
     h_t = z_t * h_prev + (1 - z_t) * h_candidate
     
     # 更新隐藏状态
     h_prev = h_t
-
+    
 ```
 b)       lstm和gru的参数估计
 lstm参数估计：
