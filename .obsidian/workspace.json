@@ -170,11 +170,18 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "obsidian-git:Open Git source control": false,
+      "homepage:Open homepage": false,
+      "obsidian-kanban:创建新看板": false,
+      "templater-obsidian:Templater": false
     }
   },
   "active": "751069c4d1c7a6b1",
   "lastOpenFiles": [
+    "aft/Neural Networks/image-20241118143227335.png",
+    "aft/Neural Networks",
     "aft/Neural Networks.md"
   ]
 }

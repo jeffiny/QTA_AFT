@@ -100,6 +100,8 @@ def train(dataloader,model,loss_fn,optimizer):
 train(train_dataloader,model,loss_fn,optimizer)
 ```
 3.      以MLP举例，描述数据从输入到输出的维度变化
+MLP原理图如下：
+![[image-20241118143227335.png]]
 
 4.      常用的激活函数和优缺点
 
